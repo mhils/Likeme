@@ -1,0 +1,20 @@
+{
+  "name": "I'd like to confirm.",
+  "version": "1.0.0",
+  "description": "Adds a confirm dialog to every Facebook Like Button in order to prevent ClickJacking.",
+  "icons": { "16": "likeconfirm-16.png",
+             "48": "likeconfirm-48.png",
+			 "128": "likeconfirm-128.png",
+             "256": "likeconfirm-256.png" },
+  "content_scripts": [
+    {
+      "matches": ["*://*.facebook.com/plugins/*"],
+      "js": ["likeconfirm.js"],
+	  "run_at": "document_end",
+	  "all_frames": true
+    }
+  ],
+  "permissions": [
+    "*://*.facebook.com/plugins/like.php*"
+  ]
+}
