@@ -1,6 +1,6 @@
 {
   "name": "I Like Privacy.",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "Replaces every Facebook Likebutton with a local one. Hinder Facebook keeping track of you.",
   "icons": { "16" : "like-16.png",
              "48" : "like-48.png",
@@ -16,7 +16,7 @@
 	{
       "matches": ["http://*/*","https://*/*"],
       "js": ["likeprivacy.js"],
-	  "run_at": "document_end",
+	  "run_at": "document_start",
 	  "all_frames": true
     }
   ],
