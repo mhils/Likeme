@@ -1,7 +1,7 @@
 {
-  "name": "I Like Liking.",
-  "version": "1.0.0",
-  "description": "Adds a confirm dialog to every Facebook Like Button in order to prevent ClickJacking.",
+  "name": "I Like Privacy.",
+  "version": "1.1.0",
+  "description": "Replaces every Facebook Likebutton with a local one. Hinder Facebook keeping track of you.",
   "icons": { "16" : "like-16.png",
              "48" : "like-48.png",
 			 "128": "like-128.png",
@@ -9,7 +9,13 @@
   "content_scripts": [
     {
       "matches": ["*://*.facebook.com/plugins/*"],
-      "js": ["likeconfirm.js"],
+      "js": ["fakelike.js"],
+	  "run_at": "document_idle",
+	  "all_frames": true
+    },
+	{
+      "matches": ["http://*/*","https://*/*"],
+      "js": ["likeprivacy.js"],
 	  "run_at": "document_end",
 	  "all_frames": true
     }

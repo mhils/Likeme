@@ -1,0 +1,46 @@
+<html>
+<head><title>I'd like to confirm! - Prevent Facebook ClickJacking</title>
+<script src='jquery.js'></script>
+<script type="text/javascript">
+
+$(function(){
+	$(".option").each(function(i,v) {
+		var option = $(v);
+		var id = option.attr("id");
+		if (option.is('[type="checkbox"]') && localStorage[id] == "true") 
+			option.attr("checked","checked");
+		else
+			option.val(localStorage[id]);
+	});
+	
+	$(".save").click(function(){
+		$(".option").each(function(i,o) {
+			var option = $(o);
+			var id = option.attr("id");
+			if (option.is('[type="checkbox"]')) 
+				localStorage[id] = (option.is(':checked'));
+			else
+				localStorage[id] = option.val();
+		});
+		
+		// Update status to let user know options were saved.
+		var status = document.getElementById("status");
+		status.innerHTML = "Options Saved.";
+		setTimeout(function() {
+			status.innerHTML = "";
+			}, 750);
+	});
+});
+
+</script>
+</head>
+<body>
+<h1>I'd like to confirm!</h1>
+<input type="checkbox" class="option" id="noPrivacy">Disable privacy mode<br>
+<input type="checkbox" class="option" id="noProtection">Disable Clickjacking protection<br>
+<input type="checkbox" class="option" id="paranoid">Paranoid mode (adds confirm dialog even if protection is enabled)<br>
+<br>
+<button class="save" >Save</button>
+<div id="status"></div>
+</body>
+</html>
