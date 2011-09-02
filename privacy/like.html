@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
 <style type="text/css">
@@ -27,13 +28,14 @@ html, body {
 	border-color: #3B5998;
 }
 </style>
-</head>
-<body>
-<div id="privacy" onclick="javascript:doFB()">Like</div>
-<script>
+<script type="text/javascript">
 function doFB(){
 location = decodeURIComponent(location.hash.replace("#",""));
 }
 </script>
+</head>
+<body>
+<div id="privacy" onclick="javascript:doFB()">Like</div>
+
 </body>
 </html>
