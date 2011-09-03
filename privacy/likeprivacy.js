@@ -1,23 +1,20 @@
-//var privacyframes = document.getElementsByTagName("iframe");
-var isFacebook = /.*facebook\.com\/plugins\/.*/i;
+var isFacebookXFBML= /facebook.net\/.*all\.js/i;
+var isFacebook_Like = /facebook\.com\/plugins\//i;
 var likeDummy = chrome.extension.getURL("like.html");
 
 //console.log([document,privacyframes,document.readyState]);
 
 document.addEventListener("beforeload", function(event) {
-  if(isFacebook.test(event.url))
-  {
-    console.log(["Caught resource load",event]); 
-	event.preventDefault();
-	event.target.src = likeDummy+ "#" + encodeURIComponent(event.url);
-  }
-  if(RegExp(likeDummy+".*","i").test(event.url))
-	console.log(["New resource load",event]); 
+	if(isFacebook_Like.test(event.url))
+	{
+		//console.log(["Caught FB-Like load",event]); 
+		event.preventDefault();
+		event.target.src = likeDummy+ "#" + encodeURIComponent(event.url);
+	}
+	else if(isFacebook.test(event.url))
+	{
+		//console.log(["Caught XFBML load",event]); 
+		
+		event.preventDefault();
+	}
 }, true); 
-/*
-for(var i=0;i<privacyframes.length;i++)
-{
-	if(isFacebook.test(privacyframes[i].src))
-		privacyframes[i].src = likeDummy+ "#" + encodeURIComponent(privacyframes[i].src);
-}
-*/
