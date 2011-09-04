@@ -1,5 +1,5 @@
 window.fbFakeHandler = function(){
-	console.log(["Fake Call",arguments]);
+	//console.log(["Facebook Privacy - Intercepting XFBML call",arguments]);
 	var customEvent = document.createEvent('Event');
 	customEvent.initEvent('fixXFBML', true, true);
 	document.body.dispatchEvent(customEvent);
