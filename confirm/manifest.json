@@ -1,7 +1,8 @@
 {
-  "name": "I Like Liking.",
-  "version": "1.0.0",
-  "description": "Adds a confirm dialog to every Facebook Like Button in order to prevent ClickJacking.",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "version": "1.0.1", 
+  "default_locale": "en",
   "icons": { "16" : "like-16.png",
              "48" : "like-48.png",
 			 "128": "like-128.png",

@@ -1,0 +1,11 @@
+{
+	"appName": {
+		"message": "I'd like to confirm."
+	},
+	"appDesc": {
+		"message": "Adds a confirm dialog to every Facebook Like Button in order to prevent ClickJacking." 
+	},
+	"confirm": {
+		"message": "Like?"
+	},
+}

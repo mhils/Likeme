@@ -2,6 +2,9 @@
 	"appName": {
 		"message": "Privatsphäre Gefällt mir."
 	},
+	"appDesc": {
+		"message": "Ersetzt Facebooks \"Gefällt mir\" Buttons auf allen Websites außerhalb des Netzwerks durch lokale Kopien und erschwert Facebook so das Erstellen eines Surfprofils." 
+	},
 	"facebookLike": {
 		"message": "Gefällt mir"
 	},

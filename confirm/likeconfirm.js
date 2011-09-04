@@ -1,7 +1,7 @@
 document.getElementsByClassName("connect_button_container")[0].addEventListener('click',
 	function(event)
 	{
-		if(!confirm("Like?"))
+		if(!confirm(chrome.i18n.getMessage("confirm")))
 		{
 			event.stopPropagation();
 			
