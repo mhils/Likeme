@@ -10,7 +10,6 @@ function initXFBMLFake(){
 	fileref.setAttribute("type", "text/css")
 	fileref.setAttribute("href", chrome.extension.getURL("like.css"));
 	document.head.appendChild(fileref);
-	console.log(chrome.extension.getURL("like.css"));
 }
 
 function fixXFBML(){
@@ -24,14 +23,14 @@ function fixXFBML(){
 	activatespan.appendChild(activate);
 	activate.appendChild(document.createTextNode("Like"));
 	activate.className = "fakeLike";
-
-	activate.onclick = function(){
+	activate.addEventListener("click",function(){
 		alert(1);
-		//localStorage.setItem("allowXFBML",true);
-	};
+	});
 	for(var i=0;i<tags.length;i++)
 	{
-		var elems = document.getElementsByTagName(tags[i]);
+		var tag = tags[i];
+		var elems = document.getElementsByTagName(tag);
+		
 		if(!inited && (elems.length > 0))
 		{
 			initXFBMLFake();
@@ -40,19 +39,23 @@ function fixXFBML(){
 		for(var j=0;j<elems.length;j++)
 		{
 			var elem = elems[j];
-			console.log([elem,activatespan]);
-			elem.parentNode.replaceChild(activatespan,elem);
+			elem.parentNode.replaceChild(activatespan.cloneNode(true),elem);
 		}
 	}
 	
+	document.body.addEventListener("click",function(event){
+		if(event.target.className === "fakeLike")
+			localStorage.setItem("allowXFBML",true);
+			location.reload();
+	});
+	
+	
 }
-
-//if(window.fb)
 
 document.addEventListener("beforeload", function(event) {
 	if(isFacebook_Like.test(event.url))
 	{
-		//console.log(["Caught FB-Like load",event]); 
+		console.log(["Caught FB-Like load",event]); 
 		event.preventDefault();
 		event.target.src = likeDummy+ "#" + encodeURIComponent(event.url);
 	}
@@ -62,7 +65,14 @@ document.addEventListener("beforeload", function(event) {
 		if(localStorage.getItem("allowXFBML") == null)
 		{
 			event.preventDefault();
-			document.addEventListener( "DOMContentLoaded", fixXFBML, false );
+			if ( document.readyState === "complete" ) {
+				fixXFBML();
+			}
+			else {
+				console.log("DOMContentLoaded"); 
+				document.addEventListener( "DOMContentLoaded", fixXFBML, false );
+				window.addEventListener( "load", fixXFBML, false );
+			}
 		}
 		
 		

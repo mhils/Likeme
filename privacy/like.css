@@ -1,20 +1,33 @@
-.fakeLike {
+.fakeLike, .fakeLike:hover /* override user specifiy a:hover stylesheets */ {
 	cursor: pointer;
-	text-decoration: none;
+	margin: 0;	
 	width: 18px;
-	line-height: 14px;
+
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
-	height: 14px;
 	font-size: 11px;
+	height: 14px;
+	line-height: 14px;
+	text-align: left;
+	text-decoration: none;
+
 	background: #efefef url(like.png) no-repeat;
 	border: solid #666666 1px;
 	border-radius: 3px;
 	padding: 2px 5px;
 	padding-left: 18px;
+	font-weight: normal;
 	color: grey;
+
 }
 
+.fakeLike {
+	opacity: 0.5;
+}
 .fakeLike:hover {
+	opacity: 1;
+}
+
+.fakeLike, .fakeLike:hover {
 	color: #3B5998;
 	background-color: #ECEEF5;
 	border-color: #3B5998;
