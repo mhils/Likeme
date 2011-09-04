@@ -19,7 +19,7 @@ function fixXFBML(){
 	var inited = false;
 	
 	var activatespan = document.createElement("span");
-	var activate = document.createElement("a");
+	var activate = document.createElement("div");
 	activatespan.appendChild(activate);
 	activate.appendChild(document.createTextNode("Like"));
 	activate.className = "fakeLike";
@@ -45,7 +45,10 @@ function fixXFBML(){
 	
 	document.body.addEventListener("click",function(event){
 		if(event.target.className === "fakeLike")
-			localStorage.setItem("allowXFBML",true);
+			if(confirm("Allow permanently on this site?"))
+				localStorage.setItem("allowXFBML",true);
+			else
+				sessionStorage.setItem("allowXFBML",true);
 			location.reload();
 	});
 	
@@ -62,7 +65,7 @@ document.addEventListener("beforeload", function(event) {
 	else if(isFacebook_XFBML.test(event.url))
 	{
 		console.log(["Caught FB-XFBML load",event]); 
-		if(localStorage.getItem("allowXFBML") == null)
+		if((localStorage.getItem("allowXFBML") == null)&&(sessionStorage.getItem("allowXFBML") == null))
 		{
 			event.preventDefault();
 			if ( document.readyState === "complete" ) {
