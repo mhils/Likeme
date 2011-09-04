@@ -21,7 +21,7 @@ function fixXFBML(){
 	var activatespan = document.createElement("span");
 	var activate = document.createElement("div");
 	activatespan.appendChild(activate);
-	activate.appendChild(document.createTextNode("Like"));
+	activate.appendChild(document.createTextNode(chrome.i18n.getMessage("facebookLike")));
 	activate.className = "fakeLike";
 
 	for(var i=0;i<tags.length;i++)
@@ -43,7 +43,7 @@ function fixXFBML(){
 	
 	document.body.addEventListener("click",function(event){
 		if(event.target.className === "fakeLike")
-			if(confirm("Allow permanently on this site?"))
+			if(confirm(chrome.i18n.getMessage("confirmUnblock")))
 				localStorage.setItem("allowXFBML",true);
 			else
 				sessionStorage.setItem("allowXFBML",true);
