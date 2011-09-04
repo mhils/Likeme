@@ -1,0 +1,14 @@
+﻿{
+	"appName": {
+		"message": "Privatsphäre Gefällt mir."
+	},
+	"facebookLike": {
+		"message": "Gefällt mir"
+	},
+	"facebookRecommend": {
+		"message": "Empfehlen"
+	},
+	"confirmUnblock": {
+		"message": "Dauerhaft für diese Seite deaktivieren?"
+	}
+}

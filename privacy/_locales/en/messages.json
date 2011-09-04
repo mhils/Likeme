@@ -1,0 +1,17 @@
+{
+	"appName": {
+		"message": "I Like Privacy."
+	},
+	"appDesc": {
+		"message": "Replaces every Facebook Likebutton with a local one. Hinder Facebook keeping track of you." 
+	},
+	"facebookLike": {
+		"message": "Like"
+	},
+	"facebookRecommend": {
+		"message": "Recommend"
+	},
+	"confirmUnblock": {
+		"message": "Unblock permanently on this site?"
+	}
+}

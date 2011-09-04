@@ -12,9 +12,12 @@
 		function doFB(){
 		location = decodeURIComponent(location.hash.replace("#",""));
 		}
+		document.addEventListener( "DOMContentLoaded", function(){
+			document.getElementById("fakeLike").innerHTML = chrome.i18n.getMessage("facebookLike");
+			}, false );
 	</script>
 </head>
 <body>
-	<div class="fakeLike" onclick="javascript:doFB()">Like</div>
+	<div id="fakeLike" class="fakeLike" onclick="javascript:doFB()">Gef&auml;llt mir</div>
 </body>
 </html>

@@ -1,11 +1,12 @@
 {
-  "name": "I Like Privacy.",
-  "version": "1.0.0",
-  "description": "Replaces every Facebook Likebutton with a local one. Hinder Facebook keeping track of you.",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "version": "1.0.0", 
   "icons": { "16" : "like-16.png",
              "48" : "like-48.png",
 			 "128": "like-128.png",
              "256": "like-256.png" },
+  "default_locale": "en",
   "content_scripts": [
     {
       "matches": ["*://*.facebook.com/plugins/*"],
