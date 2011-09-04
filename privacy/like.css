@@ -1,0 +1,21 @@
+.fakeLike {
+	cursor: pointer;
+	text-decoration: none;
+	width: 18px;
+	line-height: 14px;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	height: 14px;
+	font-size: 11px;
+	background: #efefef url(like.png) no-repeat;
+	border: solid #666666 1px;
+	border-radius: 3px;
+	padding: 2px 5px;
+	padding-left: 18px;
+	color: grey;
+}
+
+.fakeLike:hover {
+	color: #3B5998;
+	background-color: #ECEEF5;
+	border-color: #3B5998;
+}

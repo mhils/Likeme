@@ -1,41 +1,20 @@
 <!doctype html>
 <html>
 <head>
-<style type="text/css">
-html, body {
-	padding: 0;
-	margin: 0;
-}
-
-#privacy {
-	cursor: pointer;
-	width: 18px;
-	line-height: 14px;
-	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
-	height: 14px;
-	font-size: 11px;
-	background: #efefef url(like.png) no-repeat;
-	border: solid #666666 1px;
-	border-radius: 3px;
-	padding: 2px 5px;
-	padding-left: 18px;
-	color: grey;
-}
-
-#privacy:hover {
-	color: #3B5998;
-	background-color: #ECEEF5;
-	border-color: #3B5998;
-}
-</style>
-<script type="text/javascript">
-function doFB(){
-location = decodeURIComponent(location.hash.replace("#",""))+"#noblock";
-}
-</script>
+	<style type="text/css">
+		html, body {
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="like.css"></link>
+	<script type="text/javascript">
+		function doFB(){
+		location = decodeURIComponent(location.hash.replace("#",""));
+		}
+	</script>
 </head>
 <body>
-<div id="privacy" onclick="javascript:doFB()">Like</div>
-
+	<div class="fakeLike" onclick="javascript:doFB()">Like</div>
 </body>
 </html>
