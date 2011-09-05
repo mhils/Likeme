@@ -27,7 +27,7 @@ function initXFBMLFake(){
 			//if(confirm(chrome.i18n.getMessage("confirmUnblock")))
 			//	localStorage.setItem("allowXFBML",true);
 			//else
-				sessionStorage.setItem("allowXFBML",true);
+			sessionStorage.setItem("allowXFBML",true);
 			location.reload();
 		}
 	});
