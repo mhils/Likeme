@@ -5,12 +5,6 @@
 	"appDesc": {
 		"message": "Ersetzt Facebooks \"Gefällt mir\" Buttons auf allen Websites außerhalb des Netzwerks durch lokale Kopien und erschwert Facebook so das Erstellen eines Surfprofils." 
 	},
-	"facebookLike": {
-		"message": "Gefällt mir"
-	},
-	"facebookRecommend": {
-		"message": "Empfehlen"
-	},
 	"confirmUnblock": {
 		"message": "Dauerhaft für diese Seite deaktivieren?"
 	}

@@ -1,7 +1,7 @@
 .fakeLike, .fakeLike:hover /* override user specifiy a:hover stylesheets */ {
 	cursor: pointer;
 	margin: 0;	
-	float: left;
+	display: inline-block;
 
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
 	font-size: 11px;
@@ -19,6 +19,7 @@
 	opacity: 0.5;
 	color: #3B5998;
 }
+
 
 .fakeLike:hover {
 	opacity: 1;

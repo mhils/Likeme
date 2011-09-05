@@ -1,55 +1,7 @@
-﻿var isFacebook_XFBML= /(fbcdn|facebook).(net|com)\/.*all\.js/i;
-var isFacebook_Like = /facebook\.com\/plugins\//i;
+﻿var isFacebook_XFBML = /(fbcdn|facebook).(net|com)\/([a-z_]+)\/all\.js/i;
+var isFacebook_Like  = /facebook\.com\/plugins\//i;
 var likeDummy = chrome.extension.getURL("like.html");
-
-/*
-function dump(obj,out)
-{
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-	if(obj instanceof HTMLElement)
-		return "null";
-	if(out==undefined || out ==null)
-		out = 0;
-	if(out>15)
-		return "null";
-	if($.isFunction(obj))
-		return "fbFakeHandler";//"function(){}";
-	else if(obj == null)
-		return "null";
-	else if(isNumber(obj))
-		return obj+"";
-	else if(obj.length === undefined)
-	{
-		var x = "{";
-		for(key in obj)
-		{
-			if(!obj.hasOwnProperty(key))
-				continue;
-			x += '"'+key+'":'+dump(obj[key],out+1)+',';
-		}
-		if(x.length >1)
-			x = x.slice(0,-1);
-		x += "}"
-		return x;
-	}
-	else if($.isArray(obj))
-	{
-		var x = "[";
-		for(var i=0;i<obj.length;i++)
-		{
-			x += dump(obj[i],out+1)+",";
-		}
-		if(x.length >1)
-			x = x.slice(0,-1);
-		x += "]"
-		return x;
-	}
-	else
-		return '"'+obj.replace(/"/g,"\\\"")+'"';
-}
-*/
+var language = undefined;
 
 function isBlocked(){
 	return ((localStorage.getItem("allowXFBML") == null)&&(sessionStorage.getItem("allowXFBML") == null));
@@ -72,7 +24,7 @@ function initXFBMLFake(){
 		{
 			//if(!isBlocked()) return;
 			//FIXME: Make this more beautiful
-			if(confirm(chrome.i18n.getMessage("confirmUnblock")))
+			//if(confirm(chrome.i18n.getMessage("confirmUnblock")))
 			//	localStorage.setItem("allowXFBML",true);
 			//else
 				sessionStorage.setItem("allowXFBML",true);
@@ -84,22 +36,40 @@ function initXFBMLFake(){
 function fixXFBML(){
 	
 	var tags = ["fb:like"];
-		
-	var activatespan = document.createElement("span");
-	var activate = document.createElement("div");
-	activatespan.appendChild(activate);
-	activate.appendChild(document.createTextNode(chrome.i18n.getMessage("facebookLike")));
-	activate.className = "fakeLike";
+	
+	var fakes = {
+		"fb:like" : function(elem){
+			var container = document.createElement("span");
+			var like = document.createElement("div");
+			like.className = "fakeLike";
+			container.appendChild(like);
+			
+			var tagName = elem.tagName.replace(":","_").toLowerCase();
+			if(tagName === "fb_like" && elem.getAttribute("action") == "recommend")
+				tagName = "fb_recommend";
+			var likeText;
+			var localizationKeys = [tagName+"_"+language,tagName,"fb_generic"];
+			do {
+				likeText = chrome.i18n.getMessage(localizationKeys.shift());
+			} while(likeText == "");
+			
+			like.appendChild(document.createTextNode(likeText));
+			
+			return container;
+		}
+	}
+	fakes.generic = fakes["fb:like"];
 	
 	for(var i=0;i<tags.length;i++)
 	{
 		var tag = tags[i];
+		var fakeFunction = fakes.hasOwnProperty(tag) ? fakes[tag] : fakes.generic;
 		var elems = document.getElementsByTagName(tag);
 
 		for(var j=0;j<elems.length;j++)
 		{
-			var elem = elems[j];
-			elem.parentNode.replaceChild(activatespan.cloneNode(true),elem);
+			var elem = elems[j];			
+			elem.parentNode.replaceChild(fakeFunction(elem),elem);
 		}
 	}	
 }
@@ -119,8 +89,10 @@ document.addEventListener("beforeload", function(event) {
 			event.preventDefault();
 			initXFBMLFake();
 			document.body.addEventListener('fixXFBML',fixXFBML);
+			language = isFacebook_XFBML.exec(event.url)[3];
+			if(language==null || language == undefined) //regex failed somehow. :-/
+				language = "en_US";
 
-			
 			if ( document.readyState === "complete" ) {
 				fixXFBML();
 			}

@@ -8,12 +8,6 @@
 			 "128": "like-128.png",
              "256": "like-256.png" },
   "content_scripts": [
-    {
-      "matches": ["*://*.facebook.com/plugins/*"],
-      "js": ["fakelike.js"],
-	  "run_at": "document_idle",
-	  "all_frames": true
-    },
 	{
       "matches": ["http://*/*","https://*/*"],
       "js": ["likeprivacy.js"],
@@ -21,7 +15,5 @@
 	  "all_frames": true
     }
   ],
-  "permissions": [
-    "*://*.facebook.com/plugins/*"
-  ]
+  "permissions": ["http://*/*","https://*/*"]
 }
