@@ -10,18 +10,27 @@
 	},
 	
 	"fb_generic": {
-		"message": "Facebook"
+		"message": "Enable Facebook Plugin"
 	},
+	
 	"fb_like": {
 		"message": "Like"
-	},
-	"fb_recommend": {
-		"message": "Recommend"
 	},
 	"fb_like_de_DE": {
 		"message": "Gefällt mir"
 	},
+	
+	"fb_recommend": {
+		"message": "Recommend"
+	},
 	"fb_recommend_de_DE": {
 		"message": "Empfehlen"
+	},
+	
+	"fb_facepile": {
+		"message": "Show Friends"
+	},
+	"fb_facepile_de_DE": {
+		"message": "Freunde anzeigen"
 	}
 }

@@ -6,17 +6,48 @@
 			padding: 0;
 			margin: 0;
 		}
+		#fakeLike, .fakeLike:hover /* override user specified a:hover stylesheets */ {
+			cursor: pointer;
+			margin: 0;	
+			display: inline-block;
+
+			font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+			font-size: 11px;
+			height: 14px;
+			line-height: 14px;
+			text-align: left;
+			text-decoration: none;
+
+			background: #ECEEF5 url(fb.png) no-repeat;
+			background-position: 3px 1px;
+			border: solid #3B5998 1px;
+			border-radius: 3px;
+			padding: 2px 4px 2px 21px;
+			font-weight: normal;
+			opacity: 0.5;
+			color: #3B5998;
+		}
+
+
+		#fakeLike:hover {
+			opacity: 1;
+		}
 	</style>
-	<link rel="stylesheet" type="text/css" href="like.css"></link>
 	<script type="text/javascript">
 		function doFB(){
 		location = decodeURIComponent(location.hash.replace("#",""));
 		}
 		document.addEventListener( "DOMContentLoaded", function(){
-			var action =   new RegExp("action%3D([a-z]+)", "i").exec(location.hash)[1]; //We could combine this, but we don't know the order
-			var language = new RegExp("locale%3D([a-z_]+)","i").exec(location.hash)[1];
-			var tagName = (action==="recommend") ? "fb_recommend" : "fb_like";
+			var tagName =   "fb_" + new RegExp("%2F([^%]+)%3F", "i").exec(location.hash)[1].replace(".php","");
+			var language = new RegExp("locale%3D([a-z_]+)","i").exec(location.hash);
+			language = (language != null && language.length > 0) ? language[1] : "en_US";
+			if(tagName === "fb_like")
+			{
+				var action =   new RegExp("action%3D([a-z]+)", "i").exec(location.hash)[1];
+				tagName = (action==="recommend") ? "fb_recommend" : "fb_like";
+			}
 			var localizationKeys = [tagName+"_"+language,tagName,"fb_generic"];
+			var likeText = "";
 			do {
 				likeText = chrome.i18n.getMessage(localizationKeys.shift());
 			} while(likeText == "");
@@ -26,6 +57,6 @@
 	</script>
 </head>
 <body>
-	<div id="fakeLike" class="fakeLike" onclick="javascript:doFB()">Gef&auml;llt mir</div>
+	<div id="fakeLike" onclick="javascript:doFB()">Gef&auml;llt mir</div>
 </body>
 </html>
