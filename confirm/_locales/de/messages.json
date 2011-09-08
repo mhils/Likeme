@@ -1,11 +1,11 @@
-{
+ï»¿{
 	"appName": {
-		"message": "Gefällt mir sicher."
+		"message": "GefÃ¤llt mir sicher."
 	},
 	"appDesc": {
-		"message": "Fügt einen Bestätigungsdialog für jeden \"Gefällt mir\" Button ein. Verhindert so Clickjacking, das unbeabsichtigte \"liken\" von Inhalten." 
+		"message": "FÃ¼gt einen BestÃ¤tigungsdialog fÃ¼r jeden \"GefÃ¤llt mir\" Button ein. Verhindert so Clickjacking, das unbeabsichtigte \"liken\" von Inhalten." 
 	},
 	"confirm": {
-		"message": "Gefällt mir?"
-	},
+		"message": "GefÃ¤llt mir?"
+	}
 }

@@ -1,4 +1,4 @@
-{
+﻿{
 	"appName": {
 		"message": "I'd like to confirm."
 	},
@@ -7,5 +7,5 @@
 	},
 	"confirm": {
 		"message": "Like?"
-	},
+	}
 }
