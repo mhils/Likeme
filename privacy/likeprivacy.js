@@ -1,10 +1,34 @@
-﻿var isFacebook_XFBML = /(fbcdn|facebook).(net|com)\/([a-z_]+)\/all\.js/i;
+﻿var isFacebook = /(fbcdn|facebook)\.(net|com)/
+var isFacebook_XFBML = /(fbcdn|facebook).(net|com)\/([a-z_]+)\/all\.js/i;
 var isFacebook_Like  = /facebook\.com\/plugins\//i;
 var likeDummy = chrome.extension.getURL("like.html");
 var language = undefined;
+var parentIsBlocked = undefined;
 
 function isBlocked(){
-	return ((localStorage.getItem("allowXFBML") == null)&&(sessionStorage.getItem("allowXFBML") == null));
+	if(isFacebook.test(window.location.host))
+	{
+		console.log("Facebook detected!");
+		return false;
+	}
+	var localBlock = ((localStorage.getItem("allowXFBML") == null)&&(sessionStorage.getItem("allowXFBML") == null));
+	console.log([localBlock,window,window.parent]);
+	if((localBlock === true)&&(window.parent !== undefined)&&(window !== window.parent))
+	{
+		window.parent.postMessage("allowXFBML","*");
+		/* There's no synchronous api :-/ */
+		var timeout = new Date().getTime() +  200;
+		while((parentIsBlocked===undefined)&&(new Date().getTime() < timeout))
+		{
+		var xhr = new XMLHttpRequest();
+		xhr.open("get",likeDummy, false);
+		}
+		if(new Date().getTime() == timeout)
+			console.log("Timeout");
+		console.log(parentIsBlocked);
+		return !(parentIsBlocked === false);
+	}
+	return localBlock;
 }
 
 function initXFBMLFake(){
@@ -74,6 +98,22 @@ function fixXFBML(){
 	}	
 }
 
+function receiveMessage(event){
+	switch(event.data)
+	{
+		case "allowXFBML": //I'm a parent!
+			event.source.postMessage(isBlocked() ? "xfbml_no" : "xfbml_yes",event.origin);
+			break;
+		case "xfbml_no": //I got a response!
+			parentIsBlocked = true;
+			break;
+		case "xfbml_yes":
+			parentIsBlocked = false;
+			break;
+	}
+}
+
+window.addEventListener("message", receiveMessage, false);  
 document.addEventListener("beforeload", function(event) {
 	if(isFacebook_Like.test(event.url))
 	{
@@ -97,7 +137,6 @@ document.addEventListener("beforeload", function(event) {
 				fixXFBML();
 			}
 			else {
-				//console.log("DOMContentLoaded"); 
 				document.addEventListener( "DOMContentLoaded", fixXFBML, false );
 				window.addEventListener( "load", fixXFBML, false );
 			}
