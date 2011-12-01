@@ -1,12 +1,17 @@
 {
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
-  "version": "1.0.4", 
+  "version": "1.0.5", 
   "default_locale": "en",
   "icons": { "16" : "like-16.png",
              "48" : "like-48.png",
 			 "128": "like-128.png",
              "256": "like-256.png" },
+  "background_page": "xfbml_pageaction.html",
+  "page_action": {
+     "default_icon": "fb.png",
+     "default_title": "Enable XFBML"
+  },
   "content_scripts": [
 	{
       "matches": ["http://*/*","https://*/*"],
