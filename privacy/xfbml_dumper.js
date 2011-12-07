@@ -1,9 +1,5 @@
-var xfbml_calls = [];
-var xfbml_call = function(name,arguments) {
-	xfbml_calls.push(name,arguments);
-	console.debug("XFBML-Call: "+name,arguments);
-	return undefined;
-}
+
+/*
 var invalidate = function (obj, prefix){
 	if(obj instanceof HTMLElement)
 		return null;
@@ -22,22 +18,18 @@ var invalidate = function (obj, prefix){
 	}
 };
 invalidate(FB,"FB");
-
-function dump(obj,out)
+*/
+function isNumber(n) {
+	return !isNaN(parseFloat(n)) && isFinite(n);
+}
+function dump(obj,prefix)
 {
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-	if(obj instanceof HTMLElement)
-		return "null";
-	if(out==undefined || out ==null)
-		out = 0;
-	if(out>15)
+	if(!prefix)
+		prefix = "FB";
+	if(obj == null || obj instanceof HTMLElement ) //HTMLElement -> circular -> not dumpable
 		return "null";
 	if($.isFunction(obj))
-		return "fbFakeHandler";//"function(){}";
-	else if(obj == null)
-		return "null";
+		return "function(){ xfbml_call(\""+ prefix +"\", arguments);   }";
 	else if(isNumber(obj))
 		return obj+"";
 	else if(obj.length === undefined)
@@ -45,11 +37,10 @@ function dump(obj,out)
 		var x = "{";
 		for(key in obj)
 		{
-			if(!obj.hasOwnProperty(key))
-				continue;
-			x += '"'+key+'":'+dump(obj[key],out+1)+',';
+			if(obj.hasOwnProperty(key))
+				x += '"'+key+'":'+dump(obj[key],prefix+"."+key)+',';
 		}
-		if(x.length >1)
+		if(x.length >1) //remove trailing comma
 			x = x.slice(0,-1);
 		x += "}"
 		return x;
@@ -59,7 +50,7 @@ function dump(obj,out)
 		var x = "[";
 		for(var i=0;i<obj.length;i++)
 		{
-			x += dump(obj[i],out+1)+",";
+			x += dump(obj[i],prefix+"["+i+"]")+",";
 		}
 		if(x.length >1)
 			x = x.slice(0,-1);
