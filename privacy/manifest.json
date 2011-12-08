@@ -10,7 +10,7 @@
   "background_page": "background.html",
   "page_action": {
      "default_icon": "fb.png",
-     "default_title": "Enable XFBML"
+     "default_title": "__MSG_xfbmlLoad__"
   },
 
   "permissions": ["*://*/*","experimental","webRequest","webRequestBlocking","tabs"]

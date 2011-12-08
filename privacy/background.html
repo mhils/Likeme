@@ -11,18 +11,36 @@ var likeSub = function(details)
 {
 	if(details.url.indexOf(secret) > 0)
 		return;
-	return {redirectUrl: likeURL + "#" + encodeURIComponent(details.url+"#"+secret)};
+	return {redirectUrl: likeURL + "#" + encodeURIComponent(details.url) + "#"+secret};
 };
 chrome.webRequest.onBeforeRequest.addListener(likeSub, {urls: ["*://*.facebook.com/plugins/*"], types: ["main_frame","sub_frame"]}, ["blocking"]);
 
 //########### Facebook XFBML
-var xfbmlURL = chrome.extension.getURL("fake_xfbml.js");
+var xfbmlFakeURL = chrome.extension.getURL("xfbml_fake.js");
+var xfbmlLoadURL = chrome.extension.getURL("xfbml_load.js");
 chrome.webRequest.onBeforeRequest.addListener(function(details){
 	if(details.url.indexOf(secret) > 0)
 		return;
-	return {redirectUrl: likeURL + "#" + encodeURIComponent(details.url+"#"+secret)};
-}, {urls: ["*://*.facebook.com/*/all.js*","*://*.fbcdn.net/*/all.js*","*://*.facebook.net/*/all.js*","*://*.fbcdn.com/*/all.js*"], types: ["script"]}, ["blocking"]);
+	//xfbml loaded first, show page action
+	chrome.pageAction.show(details.tabId);
+	return {redirectUrl: xfbmlFakeURL};
+}, {urls: 
+//afaik, all.js is distributed by (facebook|fbcdn)\.(com|net)
+["*://*.facebook.com/*/all.js*","*://*.fbcdn.net/*/all.js*","*://*.facebook.net/*/all.js*","*://*.fbcdn.com/*/all.js*"], 
+types: ["script"]}, ["blocking"]);
 
+var executionEnvEscapeScript = //Code can be so dirty :o
+	"var scripts = document.getElementsByTagName('script');"+
+	"var fbTest  = /(facebook|fbcdn)\.(com|net)\\/.+\\/all\.js/;"+
+	"for(var i=0; i < scripts.length; i++)"+
+		"if(fbTest.test(scripts[i].src)) "+
+			"scripts[i].src = \""+xfbmlLoadURL+"#\" + encodeURIComponent(scripts[i].src) + \"#"+secret+"\";";
+chrome.pageAction.onClicked.addListener(function(tab) {
+	//var message = (tabStatus && tabStatus[tab.id] && tabStatus[tab.id] > 0) ? "allow-always" : "allow-once";
+	//console.debug(ports[tab.id],message);
+	chrome.tabs.executeScript(tab.id,{code:executionEnvEscapeScript,
+	allFrames: true});
+});
 
 /*var ports = {};
 var tabStatus = {};

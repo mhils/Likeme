@@ -5,8 +5,8 @@
 	"appDesc": {
 		"message": "Replaces every Facebook Likebutton with a local one. Hinder Facebook keeping track of you." 
 	},
-	"confirmUnblock": {
-		"message": "Unblock permanently on this site?"
+	"xfbmlLoad": {
+		"message": "Click here to enable Facebook plugins on this page."
 	},
 	
 	"fb_generic": {
