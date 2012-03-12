@@ -1,17 +1,18 @@
 {
+  "manifest_version" : 2,
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "version": "1.1", 
   "default_locale": "en",
-  "icons": { "16" : "like-16.png",
-             "48" : "like-48.png",
-			 "128": "like-128.png",
-             "256": "like-256.png" },
+  "icons": { "16" : "img/like-16.png",
+             "48" : "img/like-48.png",
+			 "128": "img/like-128.png",
+             "256": "img/like-256.png" },
   "background_page": "background.html",
   "page_action": {
-     "default_icon": "fb.png",
+     "default_icon": "img/fb.png",
      "default_title": "__MSG_xfbmlLoad__"
   },
-
-  "permissions": ["*://*/*","experimental","webRequest","webRequestBlocking","tabs"]
+  "content_security_policy": "default-src 'self'",
+  "permissions": ["*://*/*","webRequest","webRequestBlocking","tabs"]
 }

@@ -19,17 +19,28 @@ var invalidate = function (obj, prefix){
 };
 invalidate(FB,"FB");
 */
-function isNumber(n) {
-	return !isNaN(parseFloat(n)) && isFinite(n);
-}
+
+
 function dump(obj,prefix)
 {
+	function isNumber(n) {
+	return !isNaN(parseFloat(n)) && isFinite(n);
+	}
 	if(!prefix)
 		prefix = "FB";
 	if(obj == null || obj instanceof HTMLElement ) //HTMLElement -> circular -> not dumpable
 		return "null";
 	if($.isFunction(obj))
+	{
+		var whiteList = ["FB.JSON","FB.Array","FB.$","FB.string"]; //should be nosideeffect ones
+		for(var i = 0; i < whiteList.length; i++)
+		{
+			if(prefix.indexOf(whiteList[i]) == 0)
+				return obj +"";
+		}
 		return "function(){ xfbml_call(\""+ prefix +"\", arguments);   }";
+	}
+		
 	else if(isNumber(obj))
 		return obj+"";
 	else if(obj.length === undefined)
