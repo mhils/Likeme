@@ -49,45 +49,47 @@ function allow(tab) {
 }
 
 chrome.extension.onRequest.addListener( function (request, sender, sendResponse) {
-    console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
-    console.log(arguments);
+	sendResponse({});
+    //console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
+    //console.log(arguments);
 	if(request.allow)
 		allow(sender.tab);
-    sendResponse({});
 });
 
+//########### Facebook iframe
 var likeURL = chrome.extension.getURL("facebook/iframe/like.html");
 chrome.webRequest.onBeforeRequest.addListener(function (details) {
 		if (isAllowed(details.tabId)) {
 			if (strictMode) chrome.webRequest.handlerBehaviorChanged();
 			return;
 		}
-		return {
-			redirectUrl: likeURL + "#" + encodeURIComponent(details.url)
-		};
-    }, {
-    urls: ["*://*.facebook.com/plugins/*"],
-    types: ["main_frame", "sub_frame"]
-}, ["blocking"]);
+		return { redirectUrl: likeURL + "#" + encodeURIComponent(details.url) };
+	}, {
+		urls: ["*://*.facebook.com/plugins/*"],
+		types: ["main_frame", "sub_frame"]
+		}, ["blocking"]);
 
 //########### Facebook XFBML
 chrome.webRequest.onBeforeRequest.addListener(function (details) {
-
-    if (isAllowed(details.tabId)) {
-        //console.log("Tab allowed, don't redirect...");
-        if (strictMode) chrome.webRequest.handlerBehaviorChanged();
-        return;
-    }
-	
-    //Show Page Action and redirect to fake XFBML
-    chrome.pageAction.show(details.tabId);
-	chrome.tabs.executeScript(details.tabId, {file: "xfbml_fake_cs.js"});
-    return { cancel: true };
-}, {
-    urls:
-    //afaik, all.js is distributed by (facebook|fbcdn)\.net
-    ["*://*.fbcdn.net/*/all.js*", "*://*.facebook.net/*/all.js*"],
-    types: ["script"]
-}, ["blocking"]);
+		if (isAllowed(details.tabId)) {
+			//console.log("Tab allowed, don't redirect...");
+			if (strictMode) chrome.webRequest.handlerBehaviorChanged();
+			return;
+		}
+		
+		//Show Page Action and redirect to fake XFBML
+		chrome.pageAction.show(details.tabId);
+		chrome.tabs.executeScript(details.tabId, {file: "xfbml.js"},function(){
+			chrome.tabs.sendRequest(details.tabId, {
+				xfbmlRealURL: details.url
+			});
+		});
+		return { cancel: true };
+	}, {
+		urls:
+		//afaik, all.js is distributed by (facebook|fbcdn)\.net
+		["*://*.fbcdn.net/*/all.js*", "*://*.facebook.net/*/all.js*"],
+		types: ["script"]
+		}, ["blocking"]);
 
 chrome.pageAction.onClicked.addListener(allow);

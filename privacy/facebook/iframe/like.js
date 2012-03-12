@@ -1,20 +1,35 @@
 document.addEventListener( "DOMContentLoaded", function(){
-	var check = new RegExp("^https?://([^/]*\.)?facebook.com/plugins/(.+)\.php", "i");
-	var facebookURL = decodeURIComponent(location.hash).replace(/^#/, "");
-	if(!check.test(facebookURL))
-	{
-		console.error("Could not parse URL. Potential XSRF attack.");
-		return;
-	}
-	var tagName =   "fb_" + check.exec(facebookURL)[2];
-	if(tagName === "fb_like")
-	{
-		var action = new RegExp("action=([a-z]+)", "i").exec(facebookURL);
-		tagName = (action != null && action[1]==="recommend") ? "fb_recommend" : "fb_like";
-	}
+	var facebook = new RegExp("^https?://([^/]*\.)?facebook.com/plugins/(.+)\.php", "i");
+	var data = decodeURIComponent(location.hash).replace(/^#/, "");
 	
-	var language = new RegExp("locale=([a-z_]+)","i").exec(facebookURL);
-	language = (language != null) ? language[1] : "en_US";
+	var tagName, language;
+	if(facebook.test(data))
+	{
+		var result = facebook.exec(data);
+		tagName =   "fb_" + result[2];
+		if (tagName === "fb_like")
+		{
+			var action = data.match(/action=([a-z]+)/i);
+			if(action != null && action[1]==="recommend")
+				tagName = "fb_recommend";
+		}
+		var language = data.match(/locale=([a-z_]+)/i);
+		language = (language != null) ? language[1] : "en_US";
+	}
+	else
+	{
+		try {
+			result = JSON.parse(data);
+			tagName = "fb_"+result.tagName;
+			language = result.language;
+			
+		} catch(e) {
+			console.error("Could not parse URL. Potential XSRF attack.");
+			return;
+		}
+	}
+
+	
 
 	//Loop through possible localizationKeys until we find a match
 	var localizationKeys = [tagName+"_"+language,tagName,"fb_generic"];
