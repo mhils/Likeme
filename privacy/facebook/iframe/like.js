@@ -27,7 +27,14 @@ document.addEventListener( "DOMContentLoaded", function(){
 	fakeLike.textContent  = buttonText;
 	
 	fakeLike.addEventListener("click",function(){
-		location = decodeURIComponent(location.hash.replace("#",""));
+		chrome.extension.sendRequest({allow: true});
+	});
+	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+		sendResponse({});
+		//console.log(request);
+		//console.log(request.permissionChanged);
+		if (request.permissionChanged)
+			location = decodeURIComponent(location.hash.replace(/^#/,""));
 	});
 	
 }, false );
