@@ -1,7 +1,8 @@
 (function(){
 
-	var xfbmlLoadURL = chrome.extension.getURL("xfbml_load.js");
-	var xfbmlFakeURL = chrome.extension.getURL("xfbml_fake.js");
+	var likeURL = chrome.extension.getURL("facebook/like.html");
+	var xfbmlLoadURL = chrome.extension.getURL("facebook/fb_load.js");
+	var xfbmlFakeURL = chrome.extension.getURL("facebook/fb_fake.js");
 	var xfbmlRealURL = undefined;
 	
 	var head = document.getElementsByTagName('head')[0];
@@ -13,12 +14,17 @@
 	head.appendChild(fake);
 	
 	function fakeDOM() {
+		var tags = ["activity","add-to-timeline","comments","facepile","like-box","like","live-stream","login-button","recommendations","recommendations_bar","registration","send","subscribe"];
+		
 		//Add fake markup
-		var tags = ["fb:like"];
 		for(var i in tags)
 		{
 			var tag = tags[i];
-			var elements = document.getElementsByTagName(tag);
+			
+			var elements = 
+			Array.prototype.slice.call(document.getElementsByTagName("fb:"+tag)).concat(
+			Array.prototype.slice.call(document.getElementsByClassName("fb-"+tag)));
+
 			for(var j=0; j < elements.length; j++)
 			{
 				var elem = elements[j];
@@ -28,25 +34,27 @@
 					elem.classList.add("_fb_faked");
 				
 				var data = {};
-				data.tagName = tag.replace("fb:","");
-				if(data.tagName === "like" && elem.getAttribute("action") && elem.getAttribute("action") === "recommend")
+				data.tagName = tag;
+				var action = elem.getAttribute("action") || elem.dataset.action;
+				if(data.tagName === "like" && action === "recommend")
 					data.tagName = "recommend";
 				
 				var fakeElem = document.createElement("iframe");
-				fakeElem.src = chrome.extension.getURL("facebook/iframe/like.html#"+JSON.stringify(data));
+				fakeElem.src = likeURL+"#"+encodeURIComponent(JSON.stringify(data));
 				fakeElem.scrolling = "no";
 				fakeElem.frameBorder = 0;
 				fakeElem.className = elem.className;
+				fakeElem.classList.add("_fb_fakeElement");
 				fakeElem.style.cssText = elem.style.cssText;
 				elements[j].parentNode.insertBefore(fakeElem,elements[j]);
 			}
 		}
-		var classes = [".fb-like"];
+		
 	}
 	
 	function unfakeDOM() {
-		var fakeElements = document.getElementsByClassName("_fb_faked");
-		for(var i=0; i < fakeElements.length; i++)
+		var fakeElements = document.getElementsByClassName("_fb_fakeElement");
+		for(var i=fakeElements.length-1; i >= 0; i--)
 		{
 			fakeElements[i].parentNode.removeChild( fakeElements[i] );
 		}
@@ -79,10 +87,7 @@
 		}
 	});
 	
-	console.debug("Facebook XFBML faked.");
+	console.debug("Facebook JavaScript SDK faked.");
 
 	
 })();
-
-//console.log("foo");
-//console.warn(chrome.i18n.getMessage("@@extension_id"));

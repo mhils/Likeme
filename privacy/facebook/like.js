@@ -30,7 +30,7 @@ document.addEventListener( "DOMContentLoaded", function(){
 		}
 	}
 
-	
+	tagName = tagName.replace(/-/g,"_"); // "-" is forbidden in Chrome Localization keys
 
 	//Loop through possible localizationKeys until we find a match
 	var localizationKeys = [tagName+"_"+language,tagName,"fb_generic"];

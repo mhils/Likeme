@@ -16,10 +16,43 @@
 		"message": "Klicken Sie hier, um Facebook Plugins für $url$ zu deaktivieren.",
 		"placeholders": { "url": { "content": "$1" } }
 	},
+
+	"fb_generic": {
+		"message": "Facebook Plugin aktivieren" },
+	
+	"fb_activity": {
+		"message": "Neuste Aktivität anzeigen" },
+	
+	"fb_comments": {
+		"message": "Kommentare anzeigen" },
+	
+	"fb_facepile": {
+		"message": "Freunde anzeigen" },
+	
+	"fb_like_box": {
+		"message": "Gefällt mir" },
+	
 	"fb_like": {
-		"message": "Gefällt mir"
-	},
+		"message": "Gefällt mir" },
+	
 	"fb_recommend": {
-		"message": "Empfehlen"
-	}
+		"message": "Empfehlen" },
+	
+	"fb_live_stream": {
+		"message": "Facebook Livestream anzeigen" },
+	
+	"fb_login_button": {
+		"message": "Anmelden" },
+	
+	"fb_recommendations": {
+		"message": "Empfehlungen anzeigen" },
+	
+	"fb_registration": {
+		"message": "Registrieren" },
+	
+	"fb_send": {
+		"message": "Senden" },
+	
+	"fb_subscribe": {
+		"message": "Abonnieren" }
 }

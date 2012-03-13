@@ -18,27 +18,75 @@
 	},
 	
 	"fb_generic": {
-		"message": "Enable Facebook Plugin"
-	},
+		"message": "Enable Facebook Plugin" },
 	
-	"fb_like": {
-		"message": "Like"
-	},
-	"fb_like_de_DE": {
-		"message": "Gefällt mir"
-	},
+	"fb_activity": {
+		"message": "Show Activity Feed" },
+	"fb_activity_de_DE": {
+		"message": "Neuste Aktivität anzeigen" },
 	
-	"fb_recommend": {
-		"message": "Recommend"
-	},
-	"fb_recommend_de_DE": {
-		"message": "Empfehlen"
-	},
+	"fb_add_to_timeline": {
+		"message": "Add to timeline" },
+	"fb_add_to_timeline_de_DE": {
+		"message": "Zur Timeline hinzufügen" },
+	
+	"fb_comments": {
+		"message": "Show Comments" },
+	"fb_comments_de_DE": {
+		"message": "Kommentare anzeigen" },
 	
 	"fb_facepile": {
-		"message": "Show Friends"
-	},
+		"message": "Show Friends" },
 	"fb_facepile_de_DE": {
-		"message": "Freunde anzeigen"
-	}
+		"message": "Freunde anzeigen" },
+	
+	"fb_like_box": {
+		"message": "Like" },
+	"fb_like_box_de_DE": {
+		"message": "Gefällt mir" },
+	
+	"fb_like": {
+		"message": "Like" },
+	"fb_like_de_DE": {
+		"message": "Gefällt mir" },
+	
+	"fb_recommend": {
+		"message": "Recommend" },
+	"fb_recommend_de_DE": {
+		"message": "Empfehlen" },
+	
+	"fb_live_stream": {
+		"message": "Show Facebook Live Stream" },
+	"fb_live_stream_de_DE": {
+		"message": "Facebook Livestream anzeigen" },
+	
+	"fb_login_button": {
+		"message": "Log In" },
+	"fb_login_button_de_DE": {
+		"message": "Anmelden" },
+	
+	"fb_recommendations": {
+		"message": "Show Recommendations" },
+	"fb_recommendations_de_DE": {
+		"message": "Empfehlungen anzeigen" },
+	
+	"fb_recommendations_bar": {
+		"message": "Show Recommendations" },
+	"fb_recommendations_bar_de_DE": {
+		"message": "Empfehlungen anzeigen" },
+	
+	"fb_registration": {
+		"message": "Register" },
+	"fb_registration_de_DE": {
+		"message": "Registrieren" },
+	
+	"fb_send": {
+		"message": "Send" },
+	"fb_send_de_DE": {
+		"message": "Senden" },
+	
+	"fb_subscribe": {
+		"message": "Subscribe" },
+	"fb_subscribe_de_DE": {
+		"message": "Abonnieren" }
 }

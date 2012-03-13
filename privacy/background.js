@@ -1,4 +1,5 @@
-var strictMode = true;
+var strictMode = false;
+var likeURL = chrome.extension.getURL("facebook/like.html");
 
 //Workaround for a synchronous chrome.tabs.get API Call.
 //http://code.google.com/p/chromium/issues/detail?id=54257
@@ -14,7 +15,6 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
 });
 
 function getHostname(tabId) {
-	console.log(tabId,tabs[tabId],hostnames[tabId]);
 	if  (!(tabId in hostnames))
 	{
 		hostnames[tabId] = (tabs[tabId] || "").match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/)[4];
@@ -36,7 +36,10 @@ const PERM = true, TEMP = false;
 function setAllowed(tabId, value, permanently) {
     var storage = permanently ? localStorage : sessionStorage;
     var key = permanently ? getHostname(tabId) : tabId;
-    storage.setItem(key, value);
+	if(value===false)
+		storage.removeItem(key);
+	else
+		storage.setItem(key, value);
 }
 
 function allow(tab) {
@@ -61,16 +64,18 @@ function allow(tab) {
 function showPageAction(tabId){
 	if(isAllowedTemporarily(tabId))
 	{
-		chrome.pageAction.setIcon({tabId: tabId, path:"img/fb_check.png"});
+		chrome.pageAction.setIcon( {tabId: tabId, path:"img/fb_check.png"});
 		chrome.pageAction.setTitle({tabId: tabId, title: chrome.i18n.getMessage("pageaction_allow_permanently", getHostname(tabId))});
 	}
 	else if(isAllowedPermanently(tabId))
 	{
-		chrome.pageAction.setIcon({tabId: tabId, path:"img/fb_doublecheck.png"});
+		chrome.pageAction.setIcon( {tabId: tabId, path:"img/fb_doublecheck.png"});
+		chrome.pageAction.setTitle({tabId: tabId, title: chrome.i18n.getMessage("pageaction_allow_withdraw", getHostname(tabId))});
 	}
 	else
 	{
-		chrome.pageAction.setIcon({tabId: tabId, path:"img/fb.png"});
+		chrome.pageAction.setIcon( {tabId: tabId, path:"img/fb.png"});
+		chrome.pageAction.setTitle({tabId: tabId, title: chrome.i18n.getMessage("pageaction_allow_once")});
 	}
 	chrome.pageAction.show(tabId);
 }
@@ -84,7 +89,7 @@ chrome.extension.onRequest.addListener( function (request, sender, sendResponse)
 });
 
 //########### Facebook iframe
-var likeURL = chrome.extension.getURL("facebook/iframe/like.html");
+
 chrome.webRequest.onBeforeRequest.addListener(function (details) {
 		showPageAction(details.tabId);
 		if (isAllowed(details.tabId)) {
@@ -107,7 +112,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
 		}
 		
 		//Show Page Action and redirect to fake XFBML
-		chrome.tabs.executeScript(details.tabId, {file: "xfbml.js"},function(){
+		chrome.tabs.executeScript(details.tabId, {file: "facebook/fb_contentscript.js"},function(){
 			chrome.tabs.sendRequest(details.tabId, {
 				xfbmlRealURL: details.url
 			});
