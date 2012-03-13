@@ -8,11 +8,16 @@
              "48" : "img/like-48.png",
 			 "128": "img/like-128.png",
              "256": "img/like-256.png" },
-  "background_page": "background.html",
+  "background": { "scripts": ["background.js"] },
   "page_action": {
      "default_icon": "img/fb.png",
      "default_title": "__MSG_pageaction_allow_once__"
   },
   "content_security_policy": "default-src 'self'",
+  "web_accessible_resources": [
+	"facebook/like.html",
+	"facebook/fb_fake.js",
+	"facebook/fb_load.js"
+  ],
   "permissions": ["*://*/*","webRequest","webRequestBlocking","tabs"]
 }
