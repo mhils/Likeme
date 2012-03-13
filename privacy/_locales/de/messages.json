@@ -5,7 +5,21 @@
 	"appDesc": {
 		"message": "Ersetzt Facebooks \"Gefällt mir\" Buttons auf allen Websites außerhalb des Netzwerks durch lokale Kopien und erschwert Facebook so das Erstellen eines Surfprofils." 
 	},
-	"xfbmlLoad": {
+	"pageaction_allow_once": {
 		"message": "Klicken Sie hier, um Facebook Plugins für diese Seite nachzuladen."
+	},
+	"pageaction_allow_permanently": {
+		"message": "Klicken Sie hier, um Facebook Plugins permanent für $url$ zu aktivieren.",
+		"placeholders": { "url": { "content": "$1" } }
+	},
+	"pageaction_allow_withdraw": {
+		"message": "Klicken Sie hier, um Facebook Plugins für $url$ zu deaktivieren.",
+		"placeholders": { "url": { "content": "$1" } }
+	},
+	"fb_like": {
+		"message": "Gefällt mir"
+	},
+	"fb_recommend": {
+		"message": "Empfehlen"
 	}
 }

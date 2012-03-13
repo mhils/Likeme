@@ -11,7 +11,7 @@
   "background_page": "background.html",
   "page_action": {
      "default_icon": "img/fb.png",
-     "default_title": "__MSG_xfbmlLoad__"
+     "default_title": "__MSG_pageaction_allow_once__"
   },
   "content_security_policy": "default-src 'self'",
   "permissions": ["*://*/*","webRequest","webRequestBlocking","tabs"]

@@ -5,8 +5,16 @@
 	"appDesc": {
 		"message": "Replaces every Facebook Likebutton with a local one. Hinder Facebook keeping track of you." 
 	},
-	"xfbmlLoad": {
+	"pageaction_allow_once": {
 		"message": "Click here to enable Facebook plugins on this page."
+	},
+	"pageaction_allow_permanently": {
+		"message": "Click here to enable Facebook plugins permanently on $url$.",
+		"placeholders": { "url": { "content": "$1" } }
+	},
+	"pageaction_allow_withdraw": {
+		"message": "Click here to disable Facebook plugins on $url$.",
+		"placeholders": { "url": { "content": "$1" } }
 	},
 	
 	"fb_generic": {

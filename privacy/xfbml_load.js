@@ -1,5 +1,5 @@
 (function(){
-	console.log("Prepare for real XFBML...");
+	console.debug("Prepare for real XFBML...");
 
 	delete window.FB;
 
@@ -25,5 +25,5 @@
 			
 	};
 
-	console.log("Prepared.");
+	console.debug("Prepared.");
 })();

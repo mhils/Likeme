@@ -15,20 +15,42 @@
 	function fakeDOM() {
 		//Add fake markup
 		var tags = ["fb:like"];
-		for(var i = 0;i<tags.length;i++)
+		for(var i in tags)
 		{
-			var elements = document.getElementsByTagName(tags[i]);
-			for(var j=0;j<elements.length;j++)
+			var tag = tags[i];
+			var elements = document.getElementsByTagName(tag);
+			for(var j=0; j < elements.length; j++)
 			{
+				var elem = elements[j];
+				if(elem.classList.contains("_fb_faked"))
+					continue;
+				else
+					elem.classList.add("_fb_faked");
+				
+				var data = {};
+				data.tagName = tag.replace("fb:","");
+				if(data.tagName === "like" && elem.getAttribute("action") && elem.getAttribute("action") === "recommend")
+					data.tagName = "recommend";
+				
 				var fakeElem = document.createElement("iframe");
-				fakeElem.src = chrome.extension.getURL("facebook/iframe/like.html");
+				fakeElem.src = chrome.extension.getURL("facebook/iframe/like.html#"+JSON.stringify(data));
+				fakeElem.scrolling = "no";
+				fakeElem.frameBorder = 0;
+				fakeElem.className = elem.className;
+				fakeElem.style.cssText = elem.style.cssText;
 				elements[j].parentNode.insertBefore(fakeElem,elements[j]);
 			}
 		}
+		var classes = [".fb-like"];
 	}
 	
 	function unfakeDOM() {
-	
+		var fakeElements = document.getElementsByClassName("_fb_faked");
+		for(var i=0; i < fakeElements.length; i++)
+		{
+			fakeElements[i].parentNode.removeChild( fakeElements[i] );
+		}
+		
 	}
 	
 	fakeDOM();

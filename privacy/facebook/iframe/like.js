@@ -1,10 +1,11 @@
 document.addEventListener( "DOMContentLoaded", function(){
 	var facebook = new RegExp("^https?://([^/]*\.)?facebook.com/plugins/(.+)\.php", "i");
 	var data = decodeURIComponent(location.hash).replace(/^#/, "");
-	
+	var isDirect = false; //true on Facebook Iframe Implementation
 	var tagName, language;
 	if(facebook.test(data))
 	{
+		isDirect = true;
 		var result = facebook.exec(data);
 		tagName =   "fb_" + result[2];
 		if (tagName === "fb_like")
@@ -48,7 +49,7 @@ document.addEventListener( "DOMContentLoaded", function(){
 		sendResponse({});
 		//console.log(request);
 		//console.log(request.permissionChanged);
-		if (request.permissionChanged)
+		if (request.permissionChanged && isDirect)
 			location = decodeURIComponent(location.hash.replace(/^#/,""));
 	});
 	
