@@ -13,7 +13,6 @@
      "default_icon": "img/fb.png",
      "default_title": "__MSG_pageaction_allow_once__"
   },
-  "content_security_policy": "default-src 'self'",
   "web_accessible_resources": [
 	"facebook/like.html",
 	"facebook/fb_fake.js",

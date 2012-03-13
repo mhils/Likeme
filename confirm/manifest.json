@@ -1,7 +1,8 @@
 {
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
-  "version": "1.0.1", 
+  "manifest_version": 2,
+  "version": "1.0.2", 
   "default_locale": "en",
   "icons": { "16" : "like-16.png",
              "48" : "like-48.png",
