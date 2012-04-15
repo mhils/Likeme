@@ -3,7 +3,7 @@
 
 	delete window.FB;
 
-	_fbAsyncInit = window.fbAsyncInit || function(){};
+	var _fbAsyncInit = window.fbAsyncInit || function(){};
 	window.fbAsyncInit = function(){
 			console.debug("Async Facebook Init.");
 			_fbAsyncInit();
@@ -21,6 +21,7 @@
 				}
 				delete window._fb_calls;
 			}
+			
 			console.debug("fake init done");
 			
 	};

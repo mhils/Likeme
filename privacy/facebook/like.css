@@ -10,7 +10,9 @@ html, body {
 
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
 	font-size: 11px;
-	height: 14px;
+	height: 20px;
+    box-sizing: border-box;
+    vertical-align: top;
 	line-height: 14px;
 	text-align: left;
 	text-decoration: none;

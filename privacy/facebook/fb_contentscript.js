@@ -1,17 +1,24 @@
 (function(){
-
+    
+    var head = document.getElementsByTagName('head')[0];
+    
+    //run only once
+    if(head.dataset._fb_faked == "true")
+        return;
+    head.dataset._fb_faked = true;
+    
 	var likeURL = chrome.extension.getURL("facebook/like.html");
 	var xfbmlLoadURL = chrome.extension.getURL("facebook/fb_load.js");
 	var xfbmlFakeURL = chrome.extension.getURL("facebook/fb_fake.js");
 	var xfbmlRealURL = undefined;
 	
-	var head = document.getElementsByTagName('head')[0];
+	
 	
 	//Fake window.FB
 	//To accomplish that, we need to get out of the content script execution environment.
 	var fake = document.createElement( 'script' );
 	fake.src = xfbmlFakeURL;
-	head.appendChild(fake);
+	head.insertBefore(fake,head.firstChild);
 	
 	function fakeDOM() {
 		var tags = ["activity","add-to-timeline","comments","facepile","like-box","like","live-stream","login-button","recommendations","recommendations_bar","registration","send","subscribe"];
@@ -43,9 +50,16 @@
 				fakeElem.src = likeURL+"#"+encodeURIComponent(JSON.stringify(data));
 				fakeElem.scrolling = "no";
 				fakeElem.frameBorder = 0;
-				fakeElem.className = elem.className;
+				//fakeElem.className = elem.className;
+                for(var k = 0; k < elem.attributes.length;k++)
+                {
+                    var name = elem.attributes[k].name;
+                    var val = elem.attributes[k].value;
+                    fakeElem.setAttribute(name,val);
+                }
+                
 				fakeElem.classList.add("_fb_fakeElement");
-				fakeElem.style.cssText = elem.style.cssText;
+				fakeElem.style.cssText += "height: 20px; display: inline-block";
 				elements[j].parentNode.insertBefore(fakeElem,elements[j]);
 			}
 		}
@@ -79,8 +93,23 @@
 			var prepare = document.createElement('script');
 			prepare.src = xfbmlLoadURL;
 			prepare.addEventListener("load",function(){
+				//Workaround: Search for url fragment in source code (not available in the WebRequest API)
+				//http://code.google.com/p/chromium/issues/detail?id=118172
+				if(xfbmlRealURL)
+				{
+					var scripts = document.getElementsByTagName("script");
+					for(var i=0;i<scripts.length;i++)
+					{
+						var script = scripts[i];
+						if(script.src.indexOf(xfbmlRealURL) >= 0)
+						{
+							xfbmlRealURL = script.src;
+							break;
+						}
+					}
+				}
 				var load = document.createElement('script');
-				load.src = xfbmlRealURL || "//connect.facebook.net/en_US/all.js";
+				load.src = xfbmlRealURL || "//connect.facebook.net/en_US/all.js#xfbml=1";
 				head.appendChild(load);
 			});
 			head.appendChild(prepare);

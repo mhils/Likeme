@@ -16,7 +16,8 @@
   "web_accessible_resources": [
 	"facebook/like.html",
 	"facebook/fb_fake.js",
-	"facebook/fb_load.js"
+	"facebook/fb_load.js",
+	"unblock"
   ],
   "permissions": ["*://*/*","webRequest","webRequestBlocking","tabs"]
 }

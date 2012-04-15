@@ -10,7 +10,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
 	delete hostnames[details.tabId];
     setAllowed(details.tabId, false, false);
 }, {
-    urls: ['*://*/*'],
+    urls: ['<all_urls>'],
     types: ["main_frame"]
 });
 
@@ -82,8 +82,6 @@ function showPageAction(tabId){
 
 chrome.extension.onRequest.addListener( function (request, sender, sendResponse) {
 	sendResponse({});
-    //console.log(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");
-    //console.log(arguments);
 	if(request.allow)
 		allow(sender.tab);
 });
@@ -112,7 +110,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
 		}
 		
 		//Show Page Action and redirect to fake XFBML
-		chrome.tabs.executeScript(details.tabId, {file: "facebook/fb_contentscript.js"},function(){
+		chrome.tabs.executeScript(details.tabId, {file: "facebook/fb_contentscript.js"/*, run_at: "document_start"*/},function(){
 			chrome.tabs.sendRequest(details.tabId, {
 				xfbmlRealURL: details.url
 			});

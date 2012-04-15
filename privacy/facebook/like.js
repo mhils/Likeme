@@ -1,6 +1,7 @@
 document.addEventListener( "DOMContentLoaded", function(){
-	var facebook = new RegExp("^https?://([^/]*\.)?facebook.com/plugins/(.+)\.php", "i");
+	var facebook = /^https?:\/\/([^\/]*\.)?facebook.com\/plugins\/(.+?)(\.php|\?)/i;
 	var data = decodeURIComponent(location.hash).replace(/^#/, "");
+	//console.log(facebook.exec(data));
 	var isDirect = false; //true on Facebook Iframe Implementation
 	var tagName, language;
 	if(facebook.test(data))
