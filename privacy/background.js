@@ -97,7 +97,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
 		return { redirectUrl: likeURL + "#" + encodeURIComponent(details.url) };
 	}, {
 		urls: ["*://*.facebook.com/plugins/*"],
-		types: ["main_frame", "sub_frame"]
+		types: ["sub_frame"]
 		}, ["blocking"]);
 
 //########### Facebook XFBML
@@ -110,7 +110,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
 		}
 		
 		//Show Page Action and redirect to fake XFBML
-		chrome.tabs.executeScript(details.tabId, {file: "facebook/fb_contentscript.js"/*, run_at: "document_start"*/},function(){
+		chrome.tabs.executeScript(details.tabId, {file: "facebook/fb_contentscript.js", runAt: "document_start"},function(){
 			chrome.tabs.sendRequest(details.tabId, {
 				xfbmlRealURL: details.url
 			});

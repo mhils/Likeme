@@ -2,12 +2,12 @@
     
     var head = document.getElementsByTagName('head')[0];
     
-    //run only once
+    //run only once per document, even if multiple JS SDK instances were included.
     if(head.dataset._fb_faked == "true")
         return;
     head.dataset._fb_faked = true;
     
-	var likeURL = chrome.extension.getURL("facebook/like.html");
+	var likeURL      = chrome.extension.getURL("facebook/like.html");
 	var xfbmlLoadURL = chrome.extension.getURL("facebook/fb_load.js");
 	var xfbmlFakeURL = chrome.extension.getURL("facebook/fb_fake.js");
 	var xfbmlRealURL = undefined;
@@ -16,10 +16,12 @@
 	
 	//Fake window.FB
 	//To accomplish that, we need to get out of the content script execution environment.
+    //Sadly this code is not executed at the beginning of the page, but it should be loaded before .onload
+    //We could fix that by redirecting the original request, but this would cause other severe implications.
 	var fake = document.createElement( 'script' );
 	fake.src = xfbmlFakeURL;
 	head.insertBefore(fake,head.firstChild);
-	
+	    
 	function fakeDOM() {
 		var tags = ["activity","add-to-timeline","comments","facepile","like-box","like","live-stream","login-button","recommendations","recommendations_bar","registration","send","subscribe"];
 		
