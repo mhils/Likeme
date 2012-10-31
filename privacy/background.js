@@ -1,5 +1,19 @@
-var strictMode = false;
-var likeURL = chrome.extension.getURL("facebook/like.html");
+const strictMode = false;
+const likeURL = chrome.extension.getURL("facebook/like.html");
+const PERM = true, TEMP = false;
+
+
+var synchronousStorage = {};
+chrome.storage.sync.get("whitelist", function(items) {
+	if(items.whitelist)
+		synchronousStorage = items.whitelist;
+});
+chrome.storage.onChanged.addListener(function(changes,areaName){
+	if("whitelist" in changes) {
+		console.log("Whitelist changed.",changes);
+		synchronousStorage = changes.whitelist.newValue;
+	}
+});
 
 //Workaround for a synchronous chrome.tabs.get API Call.
 //http://code.google.com/p/chromium/issues/detail?id=54257
@@ -8,7 +22,7 @@ var tabs = {}, hostnames = {};
 chrome.webRequest.onBeforeRequest.addListener(function (details) {
     tabs[details.tabId] = details.url;
 	delete hostnames[details.tabId];
-    setAllowed(details.tabId, false, false);
+    setAllowed(details.tabId, false, TEMP);
 }, {
     urls: ['<all_urls>'],
     types: ["main_frame"]
@@ -23,23 +37,25 @@ function getHostname(tabId) {
 }
 
 function isAllowed(tabId) {
-    //console.debug("isAllowed",getHostname(tabId),(localStorage.getItem(getHostname(tabId)) || sessionStorage.getItem(getHostname(tabId))) ? true : false,url);
+    //console.debug("isAllowed",getHostname(tabId),(synchronousStorage[getHostname(tabId)] || sessionStorage[getHostname(tabId)]) ? true : false,url);
     return isAllowedTemporarily(tabId) || isAllowedPermanently(tabId);
 }
 function isAllowedTemporarily(tabId){
-	return sessionStorage.getItem(tabId) === "true" ;
+	return sessionStorage[tabId] === "true";
 }
 function isAllowedPermanently(tabId){
-	return localStorage.getItem(getHostname(tabId)) === "true";
+	return synchronousStorage[getHostname(tabId)] === "true";
 }
-const PERM = true, TEMP = false;
+
 function setAllowed(tabId, value, permanently) {
-    var storage = permanently ? localStorage : sessionStorage;
+    var storage = permanently ? synchronousStorage : sessionStorage;
     var key = permanently ? getHostname(tabId) : tabId;
 	if(value===false)
-		storage.removeItem(key);
+		delete storage[key];
 	else
-		storage.setItem(key, value);
+		storage[key] = "true"; //As sessionStorage always converts to String, we do it ourselves and keep it consistent.
+	if (permanently)
+		chrome.storage.sync.set({"whitelist": synchronousStorage});
 }
 
 function allow(tab) {
