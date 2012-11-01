@@ -1,4 +1,4 @@
-var  button = document.getElementsByClassName("connect_button_container");
+var  button = document.getElementsByClassName("pluginConnectButton");
 if(button.length > 0)
 {
 	button[0].addEventListener('click',
@@ -6,12 +6,14 @@ if(button.length > 0)
 		{
 			if(!confirm(chrome.i18n.getMessage("confirm")))
 			{
-				event.stopPropagation();
+				event.stopImmediatePropagation();
+				event.preventDefault();
 				
 				//Trigger fake edgeCreate Event
 				var body = document.getElementsByTagName("body")[0];
 				fakeEdgeCreate = document.createElement('script');
-				fakeEdgeCreate.innerHTML = "UnverifiedXD.send({type: 'edgeCreated'});";
+				
+				fakeEdgeCreate.innerHTML = "require(['XD'],function(XD){XD.UnverifiedXD.send({type: 'edgeCreated'})})";
 				body.appendChild(fakeEdgeCreate);
 				
 				return false;  
